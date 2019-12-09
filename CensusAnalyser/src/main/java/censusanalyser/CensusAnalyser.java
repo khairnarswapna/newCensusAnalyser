@@ -28,6 +28,8 @@ public class CensusAnalyser {
         } catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
 
 
@@ -47,6 +49,8 @@ public class CensusAnalyser {
         } catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
     private<E>int getCount(Iterator<E> Iterator){
