@@ -48,18 +48,6 @@ public class CensusAnalyser {
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
         }
     }
-    private<E>Iterator<E> getCSVFileIterator(Reader reader, Class CSVClass) throws CensusAnalyserException {
-        try{
-            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(CSVClass);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
-            return csvToBean.iterator();
-        }catch (IllegalStateException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
-        }
-    }
     private<E>int getCount(Iterator<E> Iterator){
         Iterable<E> csvItrable = () -> Iterator;
         int numOfEntries = (int) StreamSupport.stream(csvItrable.spliterator(), false).count();
