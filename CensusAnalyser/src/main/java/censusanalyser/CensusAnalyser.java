@@ -3,7 +3,6 @@ package censusanalyser;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import javax.imageio.IIOException;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -53,6 +52,18 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         } catch (IllegalStateException e) {
+            throw new CensusAnalyserException(e.getMessage(),
+                    CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        }
+    }
+    private<E>Iterator<E> getCSVFileIterator(Reader reader, Class CSVClass) throws CensusAnalyserException {
+        try{
+            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+            csvToBeanBuilder.withType(CSVClass);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+            return csvToBean.iterator();
+        }catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
         }
