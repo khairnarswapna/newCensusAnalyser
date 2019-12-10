@@ -24,9 +24,9 @@ public class CensusAnalyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 
-            ICSVBuilder csvbuilder=CSVBuilderFactory.createCSVbuilder();
+            ICSVBuilder csvBuilder=CSVBuilderFactory.createCSVbuilder();
 
-            Iterator<IndiaCensusCSV> csvFileItrator=  csvbuilder.getCSVFileItrator(reader,IndiaCensusCSV.class);
+            Iterator<IndiaCensusCSV> csvFileItrator=  csvBuilder.getCSVFileItrator(reader,IndiaCensusCSV.class);
             while(csvFileItrator.hasNext()) {
                censusCSVList.add(new IndiaCensusDAO(csvFileItrator.next()));
             }
@@ -45,8 +45,8 @@ public class CensusAnalyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(stateCsvPath));) {
 
-            ICSVBuilder csvbuilder=CSVBuilderFactory.createCSVbuilder();
-            List<IndiaCensusCSV> StateCSVList =csvbuilder.getCSVFileList(reader,IndiaStateCodeCSV.class);
+            ICSVBuilder csvBuilder=CSVBuilderFactory.createCSVbuilder();
+            List<IndiaStateCodeCSV> StateCSVList =csvBuilder.getCSVFileList(reader,IndiaStateCodeCSV.class);
             return StateCSVList.size();
 
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class CensusAnalyser {
     public String getStateWiseSortedData(String csvFilePath) throws CensusAnalyserException {
         if(censusCSVList==null || censusCSVList.size()==0)
         {
-            throw new CensusAnalyserException("No sesus data",CensusAnalyserException.ExceptionType.No_SENSUS_DATA);
+            throw new CensusAnalyserException("No sesus data",CensusAnalyserException.ExceptionType.No_CENSUS_DATA);
         }
             Comparator<IndiaCensusDAO> censusCSVComparator=Comparator.comparing(census->census.state);
             this.sort(censusCSVComparator);
@@ -77,11 +77,11 @@ public class CensusAnalyser {
 
     }
     private void sort(Comparator<IndiaCensusDAO> censusCSVComparator) {
-        for(int i=0;i<censusCSVList.size();i++) {
+        for(int i=0;i<censusCSVList.size()-1;i++) {
             for(int j=0;j<censusCSVList.size()-i-1;j++){
                IndiaCensusDAO census1=censusCSVList.get(j);
                IndiaCensusDAO census2=censusCSVList.get(j+1);
-               if(censusCSVComparator.compare(census1,census2)<0){
+               if(censusCSVComparator.compare(census1,census2)>0){
                    censusCSVList.set(j,census2);
                    censusCSVList.set(j+1,census1);
                }
