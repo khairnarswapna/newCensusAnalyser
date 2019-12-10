@@ -81,7 +81,7 @@ public class CensusAnalyser {
             for(int j=0;j<censusCSVList.size()-i-1;j++){
                IndiaCensusDAO census1=censusCSVList.get(j);
                IndiaCensusDAO census2=censusCSVList.get(j+1);
-               if(censusCSVComparator.compare(census1,census2)>0){
+               if(censusCSVComparator.compare(census1,census2)<0){
                    censusCSVList.set(j,census2);
                    censusCSVList.set(j+1,census1);
                }
