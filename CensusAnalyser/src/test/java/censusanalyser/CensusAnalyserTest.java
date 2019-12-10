@@ -60,6 +60,18 @@ public class CensusAnalyserTest {
         }
     }
     @Test
+    public void givenIndiaCensusData_WithEmptyFilePath_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaCensusData("");
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
+        }
+    }
+    @Test
     public void givenIndiaStateCodeData_WithIncorrectDelimiter_ShouldThrowException() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
