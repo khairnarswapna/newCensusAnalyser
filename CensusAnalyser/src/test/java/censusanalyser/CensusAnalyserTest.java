@@ -14,7 +14,8 @@ public class CensusAnalyserTest {
     private static final String INDIA__STATE_CSV_PATH="./src/test/resources/IndiaStateCode.csv";
     private static final String WRONG_CODE_CSV_FILE_PATH="./src/main/resources/IndiaStateCode.csv";
     private static final String  EMPTY_FILE_PATH="";
-    private static final String DELIMETERMISSING_CENCUSFILE="./src/test/resources/delimeterMissing.csv";
+    private static final String DELIMETERMISSING_CENCUS_FILE="./src/test/resources/delimeterMissing.csv";
+    private static final String HEADER_MISSING_CENCUS_FILE="./src/test/resources/HeaderMissing.csv";
 
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -33,6 +34,7 @@ public class CensusAnalyserTest {
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_PATH);
         } catch (CensusAnalyserException e) {
+            e.printStackTrace();
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }
     }
@@ -63,12 +65,25 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            censusAnalyser.loadIndiaCensusData((DELIMETERMISSING_CENCUSFILE));
+            censusAnalyser.loadIndiaCensusData((DELIMETERMISSING_CENCUS_FILE));
         } catch (CensusAnalyserException e) {
             e.printStackTrace();
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+    @Test
+    public void givenIndiaCensusData_WithIncorrectHeader_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaCensusData(HEADER_MISSING_CENCUS_FILE);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
+        }
+    }
+
     @Test
     public void  givenIndianCensusData_whensortedOnState_shouldreturnSortedResult() {
 
