@@ -26,8 +26,9 @@ public class CensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 
             ICSVBuilder csvBuilder= CSVBuilderFactory.createCSVbuilder();
-
             Iterator<IndiaCensusCSV> csvFileItrator= csvBuilder.getCSVFileItrator(reader,IndiaCensusCSV.class);
+            Iterable<IndiaCensusCSV> csvIterable=()->csvFileItrator;
+            StreamSupport.stream(csvIterable.spliterator(),false).forEach(census->censusCSVList.add(new IndiaCensusDAO(census)));
             while(csvFileItrator.hasNext()) {
                censusCSVList.add(new IndiaCensusDAO(csvFileItrator.next()));
             }
