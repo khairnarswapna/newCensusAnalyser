@@ -65,7 +65,7 @@ public class CensusAnalyserTest {
             String sortedCensusData = censusAnalyser.getStateWiseSortedData();
             new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.No_CENSUS_DATA, e.type);
+             Assert.assertEquals(CensusAnalyserException.ExceptionType.No_CENSUS_DATA, e.type);
         }
     }
     @Test
