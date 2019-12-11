@@ -52,7 +52,7 @@ public class CensusAnalyser {
                  IndiaCensusDAO censusDAO=censusStateMap.get(stateCSV.state);
                  if(censusDAO==null)
                      continue;
-                 censusDAO.stateCode=stateCSV.StateCode;
+                 censusDAO.stateCode=stateCSV.stateCode;
              }
             return this.censusStateMap.size();
 
@@ -68,7 +68,7 @@ public class CensusAnalyser {
         }
 
     }
-    public String getStateWiseSortedData() throws CensusAnalyserException {
+    public String getStateWithSortByField(SortByField.Field field) throws CensusAnalyserException {
         if(censusStateMap==null || censusStateMap.size()==0)
         {
             throw new CensusAnalyserException("No Census data",CensusAnalyserException.ExceptionType.No_CENSUS_DATA);
