@@ -1,5 +1,8 @@
 package censusanalyser;
 
+import CSVBuilder.CSVBuilderException;
+import CSVBuilder.CSVBuilderFactory;
+import CSVBuilder.ICSVBuilder;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -22,7 +25,7 @@ public class CensusAnalyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 
-            ICSVBuilder csvBuilder=CSVBuilderFactory.createCSVbuilder();
+            ICSVBuilder csvBuilder= CSVBuilderFactory.createCSVbuilder();
 
             Iterator<IndiaCensusCSV> csvFileItrator= csvBuilder.getCSVFileItrator(reader,IndiaCensusCSV.class);
             while(csvFileItrator.hasNext()) {
@@ -36,7 +39,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
         } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),e.type.name());
+            throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (RuntimeException e) {
             throw new CensusAnalyserException("SOME_FILE_ISSUE",CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE);
         }
@@ -56,8 +59,9 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
         } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),e.type.name());
+            throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
+
     }
     private<E>int getCount(Iterator<E> Iterator){
         Iterable<E> csvItrable = () -> Iterator;
@@ -91,7 +95,7 @@ public class CensusAnalyser {
                 censusComparator = Comparator.comparing(census -> census.densityPerSqKm);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + field.toLowerCase());
+                throw new IllegalStateException("Unexpected field: " + field.toLowerCase());
         }
         return censusComparator;
     }
