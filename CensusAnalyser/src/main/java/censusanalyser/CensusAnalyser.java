@@ -68,12 +68,6 @@ public class CensusAnalyser {
         }
 
     }
-
-    private<E>int getCount(Iterator<E> Iterator){
-        Iterable<E> csvItrable = () -> Iterator;
-        int numOfEntries = (int) StreamSupport.stream(csvItrable.spliterator(), false).count();
-        return numOfEntries;
-    }
     public String getStateWiseSortedData() throws CensusAnalyserException {
         if(censusStateMap==null || censusStateMap.size()==0)
         {
