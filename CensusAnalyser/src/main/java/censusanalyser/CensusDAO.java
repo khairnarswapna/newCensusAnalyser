@@ -23,6 +23,6 @@ public class CensusDAO {
         populationDensity=usCensusCSV.populationDensity;
         totalArea=usCensusCSV.totalArea;
 
-
     }
+
 }
