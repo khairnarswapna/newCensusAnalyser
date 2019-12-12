@@ -1,5 +1,4 @@
 package censusanalyser;
-
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -19,6 +18,7 @@ public class CensusAnalyserTest {
     private static final String DELIMETERMISSING_CENCUS_FILE="./src/test/resources/delimeterMissing.csv";
     private static final String HEADER_MISSING_CENCUS_FILE="./src/test/resources/HeaderMissing.csv";
     private static final String HEADER_MISSING_STATECODE_FILE="./src/test/resources/HeaderMissingStateCode.csv";
+    private static final String USCensus_CSVFILE="./src/test/resources/USCensusData.csv";
 
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -59,16 +59,16 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
-   /* @Test
+    @Test
     public void givenIndiaCensusData_WhenFileIsEmpty_ShouldThrowException() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            String sortedCensusData = censusAnalyser.getStateWithSortByField();
+            String sortedCensusData = censusAnalyser.getStateWithSortByField(SortByField.Field.STATE);
             new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
         } catch (CensusAnalyserException e) {
              Assert.assertEquals(CensusAnalyserException.ExceptionType.No_CENSUS_DATA, e.type);
         }
-    }*/
+    }
     @Test
     public void givenIndiaCensusData_WithEmptyFilePath_ShouldThrowException() {
         try {
@@ -139,7 +139,16 @@ public class CensusAnalyserTest {
         }
 
     }
+    @Test
+    public void givenUsCensusData_shouldReturnCorrectRecords() {
+        CensusAnalyser censusAnalyser=new CensusAnalyser();
+        try {
+            int censusDatacnt=censusAnalyser.loadUSCensusData(USCensus_CSVFILE);
+            Assert.assertEquals(51,censusDatacnt);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
 
 
-
+    }
 }
