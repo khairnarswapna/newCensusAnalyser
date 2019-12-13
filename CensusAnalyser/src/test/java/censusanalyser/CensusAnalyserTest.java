@@ -203,7 +203,7 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void  givenIndianCensusData_whensortedOn_USState_shouldreturnSortedResult() {
+    public void  given_USCensusData_whensortedOn_USState_shouldreturnSortedResult() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser(CensusAnalyser.Country.US);
             censusAnalyser.loadCensusData(CensusAnalyser.Country.US,USCensus_CSVFILE);
@@ -216,7 +216,7 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenIndianCensusData_whenSortedByHighestAreaInSqKm_USState_shouldreturn_SortedResult() {
+    public void given_USCensusData_whenSortedByHighestAreaInSqKm_USState_shouldreturn_SortedResult() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser(CensusAnalyser.Country.US);
             censusAnalyser.loadCensusData(CensusAnalyser.Country.US,USCensus_CSVFILE);
