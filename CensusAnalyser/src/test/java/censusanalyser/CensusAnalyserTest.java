@@ -202,6 +202,19 @@ public class CensusAnalyserTest {
         }
     }
 
+    @Test
+    public void  givenIndianCensusData_whensortedOn_USState_shouldreturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser(CensusAnalyser.Country.US);
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,USCensus_CSVFILE);
+            String sortedCensusData = censusAnalyser.getStateWithSortByField(SortByField.Field.STATE);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Alabama", censusCSV[0].state);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
+        }
+    }
+
 
 
 
