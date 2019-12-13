@@ -28,6 +28,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }
     }
+
     @Test
     public void givenIndianStateCodeCSV_WithWrongPath_ShouldThrowException() {
         try {
@@ -49,6 +50,7 @@ public class CensusAnalyserTest {
              Assert.assertEquals(CensusAnalyserException.ExceptionType.No_CENSUS_DATA, e.type);
         }
     }
+
     @Test
     public void givenIndiaCensusData_WithEmptyFilePath_ShouldThrowException() {
         try {
@@ -60,6 +62,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+
    @Test
     public void givenIndiaCensusData_WithIncorrectDelimiter_ShouldThrowException() {
         try {
@@ -71,6 +74,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+
     @Test
     public void givenIndiaCensusData_WithIncorrectHeader_ShouldThrowException() {
         try {
@@ -82,6 +86,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+
     @Test
     public void givenIndiaStateCodeData_WithIncorrectDelimiter_ShouldThrowException() {
         try {
@@ -93,6 +98,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+
     @Test
     public void givenIndiaStateCodeData_WithIncorrectHeader_ShouldThrowException() {
         try {
@@ -104,6 +110,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
         }
     }
+
    @Test
     public void  givenIndianCensusData_whensortedOnState_shouldreturnSortedResult() {
 
@@ -117,6 +124,20 @@ public class CensusAnalyserTest {
            Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
        }
    }
+
+    @Test
+    public void  givenIndianCensusData_whenSortedByHighestAreaInSqKm_State_shouldreturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA, INDIA_CENSUS_CSV_FILE_PATH,INDIA__STATE_CSV_PATH);
+            String sortedCensusData = censusAnalyser.getStateWithSortByField(SortByField.Field.AREA);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Rajasthan", censusCSV[0].state);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.SOME_FILE_ISSUE, e.type);
+        }
+    }
+
     @Test
     public void givenUsCensusData_shouldReturnCorrectRecords() {
         CensusAnalyser censusAnalyser=new CensusAnalyser();
@@ -129,4 +150,6 @@ public class CensusAnalyserTest {
         }
 
     }
+
+
 }

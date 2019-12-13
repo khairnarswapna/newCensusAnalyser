@@ -14,7 +14,7 @@ public class USCensusAdapterTest {
             Map<String, CensusDAO> numOfRecords = usCensusAdapter.loadCensusData(USCensus_CSVFILE);
             Assert.assertEquals(51,numOfRecords.size());
         } catch (CensusAnalyserException e) {
-            System.out.println("Error");
+            System.out.println(e.getMessage());
         }
     }
 }
