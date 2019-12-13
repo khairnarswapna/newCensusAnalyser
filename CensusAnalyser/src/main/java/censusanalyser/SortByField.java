@@ -17,10 +17,9 @@ SortByField {
     public static Comparator getParameter(SortByField.Field field) {
 
         Comparator<CensusDAO> stateComparator = Comparator.comparing(census -> census.state);
-        Comparator<CensusDAO> areaComparator = Comparator.comparing(census -> census.areaInSqKm,Comparator.reverseOrder());
+        Comparator<CensusDAO> areaComparator = Comparator.comparing(census -> census.totalArea,Comparator.reverseOrder());
         Comparator<CensusDAO> populationComparator = Comparator.comparing(census -> census.population,Comparator.reverseOrder());
         Comparator<CensusDAO> densityComparator = Comparator.comparing(census -> census.populationDensity,Comparator.reverseOrder());
-
         sortParameterComparator.put(Field .STATE, stateComparator);
         sortParameterComparator.put(Field .POPULATION,  populationComparator);
         sortParameterComparator.put(Field .AREA, areaComparator);
