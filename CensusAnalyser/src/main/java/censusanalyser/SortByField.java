@@ -4,7 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SortByField {
+public class
+SortByField {
 
     static Map<Field, Comparator> sortParameterComparator = new HashMap<>();
     enum Field{
@@ -15,7 +16,7 @@ public class SortByField {
     }
     public static Comparator getParameter(SortByField.Field field) {
 
-        Comparator<CensusDAO> stateComparator = Comparator.comparing(census -> census.state,Comparator.reverseOrder());
+        Comparator<CensusDAO> stateComparator = Comparator.comparing(census -> census.state);
         Comparator<CensusDAO> areaComparator = Comparator.comparing(census -> census.areaInSqKm,Comparator.reverseOrder());
         Comparator<CensusDAO> populationComparator = Comparator.comparing(census -> census.population,Comparator.reverseOrder());
         Comparator<CensusDAO> densityComparator = Comparator.comparing(census -> census.populationDensity,Comparator.reverseOrder());
@@ -26,7 +27,6 @@ public class SortByField {
         sortParameterComparator.put(Field .DENSITY, densityComparator);
 
         Comparator<CensusDAO> comparator = sortParameterComparator.get(field);
-
         return comparator;
     }
 

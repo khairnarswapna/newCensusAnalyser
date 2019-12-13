@@ -33,7 +33,6 @@ public abstract class CensusAdapter {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(USCensusCSV.class::cast)
                         .forEach(censusCSV -> censusStateMap.put(censusCSV.state, new CensusDAO(censusCSV)));
-
             }
             return censusStateMap;
 
