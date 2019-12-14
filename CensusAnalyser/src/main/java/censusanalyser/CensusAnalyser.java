@@ -22,25 +22,18 @@ public class CensusAnalyser {
         censusStateMap= censusAdapter.loadCensusData(csvFilePath);
         return censusStateMap.size();
     }
-    public String getStateWithSortByField(SortByField.Field field) throws CensusAnalyserException {
-        if(censusStateMap==null || censusStateMap.size()==0)
-        {
-            throw new CensusAnalyserException("No Census data",CensusAnalyserException.ExceptionType.No_CENSUS_DATA);
-        }
-        Comparator<CensusDAO> censusCSVComparator=SortByField.getParameter(field);
-        ArrayList censusDAOS=censusStateMap.values().stream().
-                sorted(censusCSVComparator).
-                map(censusDAO -> censusDAO.getCensusDTO(this.country)).
-                collect(Collectors.toCollection(ArrayList::new));
-        String sortedStateCensusJson=new Gson().toJson(censusDAOS);
-        return sortedStateCensusJson;
-    }
-    public String getSortedCensusDataUsingTwoFields(SortByField.Field field1, SortByField.Field field2) throws CensusAnalyserException {
+    public String getStateWithSortByField(SortByField.Field... field) throws CensusAnalyserException {
+        Comparator<CensusDAO> censusCSVComparator=null;
         if (censusStateMap == null || censusStateMap.size() == 0) {
             throw new CensusAnalyserException("No Census Data",
                     CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<CensusDAO> censusCSVComparator = SortByField.getParameter(field1).thenComparing(SortByField.getParameter(field2));
+        if (field.length==2) {
+            censusCSVComparator = SortByField.getParameter(field[0]).thenComparing(SortByField.getParameter(field[1]));
+        } else
+            {
+            censusCSVComparator = SortByField.getParameter(field[0]);
+        }
         ArrayList censusDTO = censusStateMap.values().stream().
                 sorted(censusCSVComparator).
                 map(censusDAO -> censusDAO.getCensusDTO(country)).
@@ -48,8 +41,5 @@ public class CensusAnalyser {
         String sortedStateCensusJson = new Gson().toJson(censusDTO);
         return sortedStateCensusJson;
     }
-
-
-
 
 }
